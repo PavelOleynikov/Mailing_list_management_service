@@ -17,6 +17,8 @@ from recipients.models import Recipient
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
 class RecipientsListView(LoginRequiredMixin, ListView):
+    """ Список всех получателей рассылки"""
+
     model = Recipient
     template_name = "recipients.html"
 
@@ -28,6 +30,8 @@ class RecipientsListView(LoginRequiredMixin, ListView):
 
 
 class RecipientCreateView(LoginRequiredMixin, CreateView):
+    """ Создание нового получателя рассылки """
+
     model = Recipient
     form_class = RecipientForm
     template_name = "create_recipient.html"
@@ -44,6 +48,8 @@ class RecipientCreateView(LoginRequiredMixin, CreateView):
 
 
 class RecipientUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    """ Редактирование получателя рассылки """
+
     model = Recipient
     form_class = RecipientForm
     template_name = "update_recipient.html"
@@ -56,12 +62,16 @@ class RecipientUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateVie
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
 class RecipientDetailView(LoginRequiredMixin, DetailView):
+    """ Детали получателя рассылки """
+
     model = Recipient
     template_name = "detail_recipient.html"
     context_object_name = "recipient"
 
 
 class RecipientDeleteView(LoginRequiredMixin, DeleteView):
+    """ Удаление получателя рассылки """
+
     model = Recipient
     template_name = "delete_recipient.html"
     success_url = reverse_lazy("recipients:recipients")

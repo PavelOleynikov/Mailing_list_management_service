@@ -8,6 +8,8 @@ from mailing.models import Mailing, MailingAttempt
 
 
 def send_mailing(mailing):
+    """ Отправка рассылки """
+
     report = []
 
     mailing.status_ending = Mailing.STATUS_STARTED

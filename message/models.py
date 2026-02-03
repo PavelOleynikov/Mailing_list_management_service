@@ -4,6 +4,8 @@ from users.models import User
 
 
 class Message(models.Model):
+    """ Модель для сообщений """
+
     theme = models.CharField(max_length=150, verbose_name="Тема письма")
     body = models.TextField(verbose_name="Тело письма")
     owner = models.ForeignKey(

@@ -4,6 +4,8 @@ from recipients.models import Recipient
 
 
 class RecipientForm(ModelForm):
+    """" Форма для добавления получателей """
+
     def __init__(self, *args, **kwargs):
         super(RecipientForm, self).__init__(*args, **kwargs)
 

@@ -4,6 +4,7 @@ from users.models import User
 
 
 class Recipient(models.Model):
+    """" Класс получателей рассылок """
 
     email = models.EmailField(verbose_name="Почта", help_text="Введите почту")
     full_name = models.CharField(

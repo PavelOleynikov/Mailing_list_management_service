@@ -17,6 +17,8 @@ from message.models import Message
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
 class MessageListView(LoginRequiredMixin, ListView):
+    """ Список сообщений """
+
     model = Message
     template_name = "message.html"
 
@@ -28,6 +30,8 @@ class MessageListView(LoginRequiredMixin, ListView):
 
 
 class MessageCreateView(LoginRequiredMixin, CreateView):
+    """ Создание сообщения """
+
     model = Message
     form_class = MessageForm
     template_name = "create_message.html"
@@ -44,6 +48,8 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
 
 
 class MessageUpdateView(LoginRequiredMixin, UpdateView):
+    """ Редактирование сообщения """
+
     model = Message
     form_class = MessageForm
     template_name = "update_message.html"
@@ -63,12 +69,16 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class MessageDetailView(LoginRequiredMixin, DetailView):
+    """" Просмотр сообщения """
+
     model = Message
     template_name = "message/message.html"
     context_object_name = "message"
 
 
 class MessageDeleteView(LoginRequiredMixin, DeleteView):
+    """ Удаление сообщения """
+
     model = Message
     template_name = "delete_message.html"
     success_url = reverse_lazy("message:message")

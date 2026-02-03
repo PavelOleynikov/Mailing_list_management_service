@@ -6,6 +6,7 @@ from users.models import User
 
 
 class Mailing(models.Model):
+    """ Модель рассылки """
 
     STATUS_CREATED = "created"
     STATUS_STARTED = "started"
@@ -46,6 +47,8 @@ class Mailing(models.Model):
 
 
 class MailingAttempt(models.Model):
+    """ Результат попытки отправки рассылки """
+
     attempt_time = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=[
         ('successful', 'Успешно'),

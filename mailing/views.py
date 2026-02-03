@@ -15,6 +15,8 @@ from mailing.services import send_mailing
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
 class MailingListView(LoginRequiredMixin, ListView):
+    """ Список писем """
+
     model = Mailing
     template_name = "mailing.html"
 
@@ -26,6 +28,8 @@ class MailingListView(LoginRequiredMixin, ListView):
 
 
 class MailingCreateView(LoginRequiredMixin, CreateView):
+    """ Создание письма """
+
     model = Mailing
     form_class = MailingForm
     template_name = "create_mailing.html"
@@ -47,6 +51,8 @@ class MailingCreateView(LoginRequiredMixin, CreateView):
 
 
 class MailingUpdateView(LoginRequiredMixin, UpdateView):
+    """ Редактирование письма """
+
     model = Mailing
     form_class = MailingUpdateForm
     template_name = "update_mailing.html"
@@ -69,6 +75,8 @@ class MailingUpdateView(LoginRequiredMixin, UpdateView):
 
 
 class MailingDeleteView(LoginRequiredMixin, DeleteView):
+    """ Удаление письма """
+
     model = Mailing
     template_name = "delete_mailing.html"
     success_url = reverse_lazy("mailing:mailing")
@@ -84,6 +92,8 @@ class MailingDeleteView(LoginRequiredMixin, DeleteView):
 
 
 class SendMailingView(View):
+    """ Отправка письма """
+
     def post(self, request, mailing_id):
         mailing = get_object_or_404(Mailing, id=mailing_id)
         send_mailing(mailing.id)
@@ -91,6 +101,8 @@ class SendMailingView(View):
 
 
 def mailing_attempts_list(request):
+    """ Список попыток отправки писем """
+
     attempts = MailingAttempt.objects.all()
 
     successful_attempts_count = attempts.filter(status='successful').count()

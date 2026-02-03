@@ -12,6 +12,8 @@ from users.models import User
 
 
 class UserCreateView(CreateView):
+    """ Создание пользователя """
+
     model = User
     form_class = UserRegisterForm
     success_url = reverse_lazy("users:login")
@@ -36,6 +38,8 @@ class UserCreateView(CreateView):
 
 
 def email_verification(request, token):
+    """ Подтверждение email """
+
     user = get_object_or_404(User, token=token)
     user.is_active = True
     user.save()
@@ -43,6 +47,8 @@ def email_verification(request, token):
 
 
 class UserProfileView(LoginRequiredMixin, DetailView):
+    """ Профиль пользователя """
+
     model = User
     template_name = 'users/profile.html'
 
@@ -51,6 +57,8 @@ class UserProfileView(LoginRequiredMixin, DetailView):
 
 
 class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
+    """ Редактирование профиля пользователя """
+
     model = User
     form_class = UserProfileForm
     template_name = 'users/profile_edit.html'

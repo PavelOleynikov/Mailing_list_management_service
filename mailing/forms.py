@@ -6,14 +6,12 @@ from recipients.models import Recipient
 
 
 class MailingForm(ModelForm):
+    """ Форма для отправки рассылки """
+
     recipients = forms.ModelMultipleChoiceField(
         queryset=Recipient.objects.all(),
         widget=forms.SelectMultiple(attrs={"class": "form-control"}),
     )
-
-    # def clean_recipients(self):
-    #     recipients = self.cleaned_data["recipients"]
-    #     return recipients
 
     def __init__(self, *args, **kwargs):
         super(MailingForm, self).__init__(*args, **kwargs)
@@ -27,16 +25,20 @@ class MailingForm(ModelForm):
 
 
 class MailingUpdateForm(ModelForm):
+    """ Форма для редактирования рассылки """
+
     recipients = forms.ModelMultipleChoiceField(
         queryset=Recipient.objects.all(),
         widget=forms.SelectMultiple(attrs={"class": "form-control"}),
     )
 
     def clean_recipients(self):
+
         recipients = self.cleaned_data["recipients"]
         return [r.id for r in recipients]
 
     def __init__(self, *args, **kwargs):
+
         super(MailingUpdateForm, self).__init__(*args, **kwargs)
         elems = self.fields
         elems["message"].widget.attrs.update({"class": "form-control"})

@@ -7,6 +7,8 @@ from recipients.models import Recipient
 
 
 def main_page(request: HttpRequest) -> HttpResponse:
+    """ Главная страница """
+
     user = request.user
     context = {
         "count_message": (
