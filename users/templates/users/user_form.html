@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h3>Регистрация пользователя</h3>
+</div>
+<div class="bd-example m-0 border-0">
+    <div class="card" style="width: 50rem;">
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-primary text-white cursor-pointer" type="submit">
+                    Зарегистрироваться
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
