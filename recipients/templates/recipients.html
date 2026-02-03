@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load split_fullname %}
+<div class="card ">
+    <div class="card-header align-items-center">
+        <div class="navbar-nav-right d-flex align-items-center justify-content-end">
+            <a href="{% url 'recipients:create_recipient' %}" class="btn btn-primary text-white cursor-pointer ">Добавить получателя</a>
+        </div>
+        <h5 class="card-action-title mb-5 text-center" >Получатели({{ object_list|length }})</h5>
+    </div>
+    <div class="card-body">
+        <ul class="list-unstyled mb-0">
+            {% for recipient in object_list %}
+            <li class="mb-4">
+                <div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center">
+                        <div class="avatar avatar-sm me-3">
+                            <span class="avatar-initial rounded-circle bg-label-primary">{{ recipient.full_name|split_fullname }}</span>
+                        </div>
+                        <div class="me-2">
+                            <h6 class="mb-0">{{ recipient.full_name }}</h6>
+                            <small>{{ recipient.email }}</small>
+                        </div>
+                    </div>
+                    <div class="ms-auto">
+                        <a href="{% url 'recipients:detail_recipient' recipient.pk %}" class="btn btn-info me-2">Просмотреть</a>
+                        {% if perms.message.can_delete_recipient or recipient.owner.id == user.id %}
+                        <a href="{% url 'recipients:delete_recipient' recipient.pk %}" class="btn btn-danger">Удалить</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{% endblock content %}
