@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+    <div class="card-header align-items-center">
+        <div class="navbar-nav-right d-flex align-items-center justify-content-end">
+            <a href="{% url 'message:create_message' %}" class="btn btn-primary text-white cursor-pointer ">Добавить сообщение</a>
+        </div>
+        <h5 class="card-action-title mb-5 text-center">Сообщения({{ object_list|length }})</h5>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Тема</th>
+                <th>Сообщение</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+            {% for message in object_list %}
+            <tr>
+                <td>{{ message.theme }}</td>
+                <td>
+                    {{ message.body }}
+                </td>
+                <td>
+                    {% if perms.message.can_delete_message or perms.message.can_update_message or message.owner.id == user.id %}
+                    <div class="dropdown">
+                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                            <i class="icon-base bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            {% if perms.message.can_update_message or message.owner.id == user.id %}
+                            <a href="{% url 'message:update_message' message.pk %}" class="btn btn-info me-2">Редактировать</a>
+                            {% endif %}
+                            {% if perms.message.can_delete_message or message.owner.id == user.id %}
+                            <a href="{% url 'message:delete_message' message.pk %}" class="btn btn-danger">Удалить</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endblock %}

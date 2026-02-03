@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="modal-header align-items-center">
+    <h5 class="modal-title">Создание сообщения</h5>
+</div>
+<div class="modal-body">
+    <form method="post" enctype="multipart/form-data" action="{% url 'message:create_message' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="justify-content-end d-flex">
+            <a class="btn btn-primary text-white cursor-pointer mx-2" href="{% url 'message:message' %}">Отмена</a>
+            <button class="btn btn-primary text-white cursor-pointer" type="submit">Добавить</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

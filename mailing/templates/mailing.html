@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header align-items-center">
+        {% if perms.mailing.can_create_mailing %}
+        <div class="card-header align-items-center">
+        <div class="navbar-nav-right d-flex align-items-center justify-content-end">
+            <a href="{% url 'mailing:create_mailing' %}" class="btn btn-primary text-white cursor-pointer ">Добавить рассылку</a>
+        </div>
+    </div>
+        {% endif %}
+        <h5 class="card-action-title mb-5 text-center">Рассылки({{ object_list|length }})</h5>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Номер рассылки</th>
+                <th>Тема</th>
+                <th>Сообщение</th>
+                <th>Получатели</th>
+                <th>Статус</th>
+                <th>Действие</th>
+            </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+            {% for mailing in object_list %}
+            <tr>
+                <td>
+                    {{ mailing.pk }}
+                </td>
+                <td>{{ mailing.message.theme }}</td>
+                <td>
+                    {{ mailing.message.body }}
+                </td>
+                <td>
+                    {{ mailing.recipients.all|length }}
+                </td>
+                <td>
+                    {% if mailing.status_ending == "created" %}
+                        <span class="badge bg-primary">{{ mailing.get_status_ending_display }}</span>
+                    {% elif mailing.status_ending == "started" %}
+                        <span class="badge bg-warning">{{ mailing.get_status_ending_display }}</span>
+                    {% elif mailing.status_ending == "completed" %}
+                        <span class="badge bg-success">{{ mailing.get_status_ending_display }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if perms.mailing.can_delete_mailing or perms.mailing.can_update_mailing or mailing.owner.id == user.id %}
+                    <div class="dropdown">
+                        <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                            <i class="icon-base bx bx-dots-vertical-rounded"></i>
+                        </button>
+                        <div class="dropdown-menu">
+                            {% if perms.mailing.can_update_mailing or mailing.owner.id == user.id %}
+                            <a href="{% url 'mailing:update_mailing' mailing.pk %}" class="btn btn-info me-2">Редактировать</a>
+                            {% endif %}
+                            {% if perms.mailing.can_delete_mailing or mailing.owner.id == user.id %}
+                            <a href="{% url 'mailing:delete_mailing' mailing.pk %}" class="btn btn-danger">Удалить</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+{% endblock %}
