@@ -6,7 +6,6 @@ from django.core.mail import send_mail
 from mailing.models import Mailing, MailingAttempt
 
 
-
 def send_mailing(mailing):
     """ Отправка рассылки """
 
@@ -44,4 +43,3 @@ def send_mailing(mailing):
     mailing.status_ending = Mailing.STATUS_COMPLETED
     mailing.status_mail = "\n".join(report)
     mailing.save()
-    

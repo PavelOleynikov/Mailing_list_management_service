@@ -22,4 +22,3 @@ def send_activation_email(host, user, token):
         recipient_list=[user.email],
         fail_silently=False,
     )
-    

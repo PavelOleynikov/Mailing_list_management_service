@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand
 from mailing.models import Mailing
 from mailing.services import send_mailing
 
+
 class Command(BaseCommand):
     """ Отправка рассылки """
 

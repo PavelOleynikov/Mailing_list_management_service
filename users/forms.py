@@ -26,6 +26,7 @@ class UserRegisterForm(UserCreationForm):
             {"class": "form-control", "placeholder": "Повторите пароль"}
         )
 
+
 class UserProfileForm(ModelForm):
     """ Форма для изменения профиля пользователя """
 
