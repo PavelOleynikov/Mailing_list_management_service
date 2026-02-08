@@ -10,7 +10,7 @@
 <p>Email: {{ user.email }}</p>
 <p>Аватар: {{ user.avatar }}</p>
 <p>Телефон: {{ user.phone_number }}</p>
-<p>Страна: {{ user.country }}</p>
+<p>Страна: {{user.country}}</p>
 <a href="{% url 'users:profile_edit' %}">Редактировать профиль</a>
-<a href="{% url 'main:base' %}">На главную<a>
+<a href="{% url 'main:base' %}">На главную</a>
 {% endblock %}

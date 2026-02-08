@@ -1,5 +1,6 @@
 import secrets
 
+from django.contrib.auth.models import Permission
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse, reverse_lazy
@@ -25,6 +26,15 @@ class UserCreateView(CreateView):
 
         user.token = token
         user.save()
+
+        basic_permissions = Permission.objects.filter(
+            codename__in=[
+                "can_create_message", "can_update_message", "can_delete_message", "can_all_view_message",
+                "can_all_view_recipients", "can_delete_recipient", "can_create_recipient",
+                "can_all_view_mailing", "can_delete_mailing", "can_update_mailing", "can_create_mailing",
+            ]
+        )
+        user.user_permissions.add(*basic_permissions)
 
         host = self.request.get_host()
         url = f"http://{host}/users/email-confirm/{token}/"
