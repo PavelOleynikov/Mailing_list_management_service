@@ -13,7 +13,8 @@ dependencies = [
     "ipython (>=9.9.0,<10.0.0)",
     "psycopg2 (>=2.9.11,<3.0.0)",
     "redis (>=7.1.0,<8.0.0)",
-    "dotenv (>=0.9.9,<0.10.0)"
+    "dotenv (>=0.9.9,<0.10.0)",
+    "python-dotenv (>=1.2.1,<2.0.0)"
 ]
 
 
@@ -29,7 +30,7 @@ black = "^26.1.0"
 
 [tool.black]
 # Максимальная длина строки
-max-line-length = 119
+max-line-length = 140
 # Файлы, которые не нужно форматировать
 exclude = '''
 (
@@ -56,7 +57,7 @@ warn_return_any = true
 exclude = 'venv'
 
 [tool.flake8]
-max-line-length = 119
+max-line-length = 140
 extend-ignore = ["E203", "W503"]
 exclude = [
     ".venv",

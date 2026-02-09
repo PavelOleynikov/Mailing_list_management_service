@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="modal-header justify-content-center">
+    <h5 class="modal-title">Просмотр получателя</h5>
+</div>
+<div class="modal-body">
+    <div>
+        <p><strong>ФИО:</strong> {{ recipient.full_name }}</p>
+        <p><strong>Электронная почта:</strong> {{ recipient.email }}</p>
+        <p><strong>Комментарий:</strong> {{ recipient.comments }}</p>
+    </div>
+    <div class="justify-content-center d-flex">
+        <a href="{% url 'recipients:update_recipient' recipient.pk %}" class="btn btn-primary text-white cursor-pointer ">Редактировать получателя</a>
+        <a class="btn btn-primary text-white cursor-pointer mx-2" href="{% url 'recipients:recipients' %}">Закрыть</a>
+    </div>
+</div>
+{% endblock %}

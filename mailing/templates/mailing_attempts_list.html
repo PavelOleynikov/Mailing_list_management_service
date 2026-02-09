@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Попытки рассылки</title>
+</head>
+<body>
+    <h1>Попытки рассылки</h1>
+
+    <h2>Статистика</h2>
+    <p>Успешные попытки: {{ successful_count }}</p>
+    <p>Неуспешные попытки: {{ unsuccessful_count }}</p>
+
+    <h2>Все попытки</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Время попытки</th>
+                <th>Статус</th>
+                <th>Ответ сервера</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attempt in attempts %}
+                <tr>
+                    <td>{{ attempt.attempt_time }}</td>
+                    <td>{{ attempt.get_status_display }}</td>
+                    <td>{{ attempt.server_response }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="3">Нет доступных попыток рассылки.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+{% endblock %}

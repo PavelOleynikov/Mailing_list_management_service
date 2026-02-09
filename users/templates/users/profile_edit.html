@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h3>Редактировать профиль</h3>
+</div>
+<form method="post" enctype="multipart/form-data" action="{% url 'users:profile_edit' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="justify-content-end d-flex">
+           <button class="btn btn-primary text-white cursor-pointer" type="submit">Сохранить</button>
+        </div>
+    </form>
+<a href="{% url 'users:profile' %}">Назад к профилю</a>
+{% endblock %}

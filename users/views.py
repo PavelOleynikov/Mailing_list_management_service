@@ -1,0 +1,78 @@
+import secrets
+
+from django.contrib.auth.models import Permission
+from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, DetailView, UpdateView
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from config.settings import EMAIL_HOST_USER
+from users.forms import UserRegisterForm, UserProfileForm
+from users.models import User
+
+
+class UserCreateView(CreateView):
+    """ Создание пользователя """
+
+    model = User
+    form_class = UserRegisterForm
+    success_url = reverse_lazy("users:login")
+
+    def form_valid(self, form):
+        user = form.save()
+        user.is_active = False
+        token = secrets.token_hex(16)
+
+        user.token = token
+        user.save()
+
+        basic_permissions = Permission.objects.filter(
+            codename__in=[
+                "can_create_message", "can_update_message", "can_delete_message", "can_all_view_message",
+                "can_all_view_recipients", "can_delete_recipient", "can_create_recipient",
+                "can_all_view_mailing", "can_delete_mailing", "can_update_mailing", "can_create_mailing",
+            ]
+        )
+        user.user_permissions.add(*basic_permissions)
+
+        host = self.request.get_host()
+        url = f"http://{host}/users/email-confirm/{token}/"
+        send_mail(
+            subject="Подтверждение email",
+            message=f"Перейдите по ссылке {url}",
+            from_email=EMAIL_HOST_USER,
+            recipient_list=[user.email],
+        )
+        return super().form_valid(form)
+
+
+def email_verification(request, token):
+    """ Подтверждение email """
+
+    user = get_object_or_404(User, token=token)
+    user.is_active = True
+    user.save()
+    return redirect(reverse("users:login"))
+
+
+class UserProfileView(LoginRequiredMixin, DetailView):
+    """ Профиль пользователя """
+
+    model = User
+    template_name = 'users/profile.html'
+
+    def get_object(self):
+        return self.request.user
+
+
+class UserProfileUpdateView(LoginRequiredMixin, UpdateView):
+    """ Редактирование профиля пользователя """
+
+    model = User
+    form_class = UserProfileForm
+    template_name = 'users/profile_edit.html'
+    success_url = reverse_lazy('users:profile')
+
+    def get_object(self):
+        return self.request.user
